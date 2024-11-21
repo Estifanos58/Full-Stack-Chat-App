@@ -4,18 +4,41 @@ import Victory from '@/assets/victory.svg'
 import { Tabs, TabsList, TabsContent, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input'
 import {Button} from '@/components/ui/button'
+import { toast } from 'sonner';
+import {apiClient} from '@/lib/api-client'
+import { SIGNUP_ROUTES } from '@/utils/constants';
 
 const Auth = () => {
     const [email, setemail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setconfirmPassword] = useState("")
 
+    const validateSignUp = ()=>{
+        if(!email.length){
+            toast.error('Email is required');
+            return false;
+        }
+        if(!password.length){
+            toast.error("Password is required");
+            return false;
+        }
+        if(password !== confirmPassword) {
+            toast.error("Password and Confirm passwrod should be same");
+            return false;
+        }
+        return true;
+    }
+
     const handleLogin = async ()=>{
 
     }
 
     const handleSignup = async()=>{
-
+        if(validateSignUp()){
+            console.log(email, password)
+            const response = await apiClient.post(SIGNUP_ROUTES,({email,password}))
+            console.log(response)
+        }
     }
 
     return (
