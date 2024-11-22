@@ -45,7 +45,7 @@ const Auth = () => {
 
     const handleLogin = async ()=>{
         if(validateLogin()){
-            const response = await apiClient.post(LOGIN_ROUTE,{email, password}, {withCredentials: true})
+            const response = await apiClient.post(LOGIN_ROUTE,{email, password,})
             console.log(response)
             if(response.data.user.id){
                 if(response.data.user.profileSetup) navigate('/chat');
@@ -57,7 +57,7 @@ const Auth = () => {
     const handleSignup = async()=>{
         if(validateSignUp()){
             console.log(email, password)
-            const response = await apiClient.post(SIGNUP_ROUTES,({email,password},{withCredentials: true}))
+            const response = await apiClient.post(SIGNUP_ROUTES,{email,password})
             console.log(response)
             if(response.status === 201){
                 navigate('/profile')
