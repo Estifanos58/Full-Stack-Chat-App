@@ -29,10 +29,19 @@ const {isLoading, setIsLoading} = useState(true);
       try{
         const response = await apiClient.get(GET_USER_INFO);
         console.log(response); 
+        if(response.status === 200 && response.data.id){
+          setUserInfo(response.data)
+        }else{
+          setUserInfo(undefined)
+        }
       }catch(err){
         console.log(err)
+        setUserInfo(undefined)
+      } finally{
+        setIsLoading(false)
       }
     }
+     
     if(!userInfo){
       getUserData();
     }else{
