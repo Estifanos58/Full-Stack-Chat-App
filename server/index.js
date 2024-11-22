@@ -11,12 +11,14 @@ const app = express();
 const port = process.env.PORT || 3001;
 const databaseURL = process.env.DATABASE_URL;
 
-// app.use(cors({
-//     origin:[process.env.ORIGION],
-//     methods:["GET", "POST","PUT","PATCH","DELETE"],
-//     credentials: true
-// }))
-app.use(cors())
+const corsOptions = {  
+    origin: process.env.ORIGION || 'http://localhost:5173', // Allow requests from this origin  
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods  
+    credentials: true, // Allow cookies to be passed  
+  }; 
+
+app.use(cors(corsOptions))
+// app.use(cors())
 
 app.use(cookieParser());
 app.use(express.json());
