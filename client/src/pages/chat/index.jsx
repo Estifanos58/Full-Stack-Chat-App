@@ -1,5 +1,6 @@
 import { useAppStore } from '@/store'
-import React,{useEffect, useNavigate} from 'react'
+import React,{useEffect} from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Chat = () => {
   const { userInfo } = useAppStore();
