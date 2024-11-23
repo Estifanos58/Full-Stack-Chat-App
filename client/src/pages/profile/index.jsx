@@ -24,7 +24,7 @@ const Profile = () => {
     <div className="bg-[#1b1c24] h-[100vh] flex items-center justify-center flex-col gap-10">
       <div className="flex flex-col gap-10 w-[80vw] md:w-max">
         <div>
-          <IoArrowBack className="text=4xl lg:text-6xl text-white/90 cursor-pointer" />
+          <IoArrowBack className="text=3xl lg:text-4xl text-white/90 cursor-pointer" />
         </div>
         <div className="grid grid-cols-2">
           <div
@@ -62,14 +62,14 @@ const Profile = () => {
             )}
             {/* input*/}
           </div>
-          <div className="flex min-w-32 md:min-w-64 flex-col gap-5 tex-white items-center justify-center">
+          <div className="flex min-w-32 md:min-w-64 flex-col gap-5 text-white items-center justify-center">
             <div className="w-full">
               <Input
                 placeholder="Email"
                 type="email"
                 disabled
                 value={userInfo.email}
-                className="rounded-lg text-white p-6 bg-[#2c2e3b] border-none"
+                className="rounded-1g p-6 bg-[#2c2e3b] border-none"
               />
             </div>
             <div className="w-full">
@@ -78,7 +78,7 @@ const Profile = () => {
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="rounded-lg p-6 text-white bg-[#2c2e3b] border-none"
+                className="rounded-lg p-6 bg-[#2c2e3b] border-none"
               />
             </div>
             <div className="w-full">
@@ -87,7 +87,7 @@ const Profile = () => {
                 type="text"
                 value={LastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="rounded-lg p-6 text-white bg-[#2c2e3b] border-none"
+                className="rounded-lg p-6 bg-[#2c2e3b] border-none"
               />
             </div>
             <div className="w-full flex gap-5">
