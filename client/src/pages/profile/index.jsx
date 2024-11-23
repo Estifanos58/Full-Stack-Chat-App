@@ -9,7 +9,7 @@ import { colors } from "../../lib/utils";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { apiClient } from "@/lib/api-client";
-import { ADD_PROFILE_IMAGE_ROUTE, UPDATE_PROFILE_ROUTE } from "@/utils/constants";
+import { ADD_PROFILE_IMAGE_ROUTE, REMOVE_PROFILE_IMAGE_ROUTE, UPDATE_PROFILE_ROUTE , HOST} from "@/utils/constants";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -28,7 +28,14 @@ const Profile = () => {
       setLastName(userInfo?.lastname)
       setSelectedColor(userInfo?.color)
     }
+    if(userInfo.image){
+      console.log()
+    }
+    if(userInfo.image){
+      setImage(`${HOST}${userInfo.image}`)
+    }
   },[userInfo])
+
 
   const validateProfile = () => {
     if (!firstName) {
@@ -95,7 +102,16 @@ const Profile = () => {
   }
 
   const handleDeleteImage = async () =>{
-
+    try {
+      const response = await apiClient.delete(REMOVE_PROFILE_IMAGE_ROUTE,{withCredentials:true});
+      if(response.status === 200){
+        setUserInfo({...userInfo, image:null});
+        toast.success("Image remove successfully")
+        setImage(null);
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
