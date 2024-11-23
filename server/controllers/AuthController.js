@@ -112,8 +112,9 @@ export const  updateProfile = async (req, res)=>{
     try{
         const {userId} = req;
 
-        const { firstname, lastname, color} = request.body;
-        if(!firstname || !lastname || !color){
+        const { firstname, lastname, color} = req.body;
+        console.log(`firstname: ${firstname} lastname: ${lastname} color: ${color}`)
+        if(!firstname || !lastname){
             return res.status(400).send("Firstname Lastname and color is required.")
         }
        

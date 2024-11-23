@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppStore } from "@/store";
 import { IoArrowBack } from "react-icons/io5";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -7,17 +7,58 @@ import { FaTrash, FaPlus } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { colors } from "../../lib/utils";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { apiClient } from "@/lib/api-client";
+import { UPDATE_PROFILE_ROUTE } from "@/utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { userInfo } = useAppStore();
+  const { userInfo , setUserInfo} = useAppStore();
   const [firstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [Image, setImage] = useState(null);
   const [hovered, setHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(userInfo.profileSetup){
+      setFirstName(userInfo?.firstname)
+      setLastName(userInfo?.lastname)
+      setSelectedColor(userInfo?.color)
+    }
+  },[userInfo])
+
+  const validateProfile = () => {
+    if (!firstName) {
+      toast.error("FirstName is Required");
+      return false;
+    }
+    if (!LastName) {
+      toast.error("LastName is requried");
+      return false;
+    }
+    return true;
+  };
 
   const saveChanges = async () => {
-    
+    if (validateProfile()) {
+      try {
+        const response = await apiClient.post(
+          UPDATE_PROFILE_ROUTE,
+          { firstname: firstName, lastname: LastName, color: selectedColor },
+          { withCredentials: true }
+        );
+        if(response.status === 200 && response.data){
+          console.log("Success")
+          setUserInfo({...response.data})
+          toast.success("Profile updated successfully");
+          navigate("/chat")
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
   };
 
   return (
@@ -91,14 +132,27 @@ const Profile = () => {
               />
             </div>
             <div className="w-full flex gap-5">
-              {
-                colors?.map((color,index)=> <div className={`${color} h-8 w-8 rounded-full cursor-pointer transition-all duration-300 ${selectedColor === index ? "outline outline-white/90 outline-1": ""}`} key={index} onClick={()=> setSelectedColor(index)}></div>)
-              }
+              {colors?.map((color, index) => (
+                <div
+                  className={`${color} h-8 w-8 rounded-full cursor-pointer transition-all duration-300 ${
+                    selectedColor === index
+                      ? "outline outline-white/90 outline-1"
+                      : ""
+                  }`}
+                  key={index}
+                  onClick={() => setSelectedColor(index)}
+                ></div>
+              ))}
             </div>
           </div>
         </div>
         <div className="w-full">
-          <Button className="h-16 w-full bg-purple-700 hover:bg-purple-900 transition-all duration-300" onClick={saveChanges}>Save Changes</Button>
+          <Button
+            className="h-16 w-full bg-purple-700 hover:bg-purple-900 transition-all duration-300"
+            onClick={saveChanges}
+          >
+            Save Changes
+          </Button>
         </div>
       </div>
     </div>
