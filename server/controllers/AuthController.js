@@ -53,11 +53,13 @@ export const login = async (req, res, next) => {
       return res.status(400).send("Email and Password is required.");
     }
     const user = await User.findOne({ email });
+    console.log(user)
     if (!user) {
       return res.status(404).send("Email and Password is required");
     }
 
     const auth = await compare(password, user.password);
+    console.log(auth)
     if (!auth) {
       return res.status(400).send("Password is incorrect.");
     }
@@ -189,6 +191,24 @@ export const removeProfileImage = async (req, res) => {
     await user.save();
 
     return res.status(200).send({message:"Profile image removed successfully."})
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+
+export const logOut = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await User.findOne({userId});
+
+    if(!user){
+        return res.status(404).send("User ot found");
+    }
+    res.cookie('jwt', "", {maxAge:1, secure:true, sameSite: "none"})
+
+    return res.status(200).send({message:"LogOut Successfull."})
   } catch (err) {
     console.log(err);
     return res.status(500).send("Internal Server Error");
