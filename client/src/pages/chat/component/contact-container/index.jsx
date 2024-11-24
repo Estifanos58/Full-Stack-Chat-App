@@ -1,4 +1,5 @@
 import React from 'react'
+import ProfileInfo from './components/profile-info';
 
 const ContactContainer = () => {
   return (
@@ -16,6 +17,7 @@ const ContactContainer = () => {
         <Title text="Channels"/>
       </div>
      </div>
+     <ProfileInfo />
     </div>
   )
 }
