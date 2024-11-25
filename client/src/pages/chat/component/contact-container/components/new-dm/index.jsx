@@ -54,8 +54,6 @@ const NewDm = () => {
                         searchedContacts.length <=0 && (<div className="text-2xl flex flex-col justify-center items-center h-[100%]">
                             Their is no Contact😒
                         </div>)
-                        // console.log(searchContacts.length)
-                        
                     }
                 </DialogContent>
             </Dialog>

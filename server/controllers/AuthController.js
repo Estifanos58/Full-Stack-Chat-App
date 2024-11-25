@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/UserModel.js";
-import { compare } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import { renameSync, unlinkSync } from "fs";
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
@@ -21,7 +21,9 @@ export const signup = async (req, res, next) => {
     if (duplicate) {
       return res.json({ message: "Email already exist" });
     }
-    const user = await User.create({ email, password });
+
+    const hashedPassword = await hash(password, 10);
+    const user = await User.create({ email, password: hashedPassword });
     res.cookie("jwt", createToken(email, user.id), {
       maxAge,
       secure: true,
