@@ -21,8 +21,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar } from "@/components/ui/avatar";
 import { AvatarImage } from "@/components/ui/avatar";
 import { getColor } from "@/lib/utils";
+import { HOST } from "@/utils/constants";
+import { useAppStore } from "@/store";
 
 const NewDm = () => {
+  const { setSelectedChatType, setSelectedChatData} = useAppStore();
   const [openNewContact, setOpenNewContact] = useState(false);
 
   const searchContacts = async (searchTerm) => {
@@ -33,19 +36,26 @@ const NewDm = () => {
           { searchTerm },
           { withCredentials: true }
         );
-        console.log(response.data.contacts)
+        console.log("response data: "+response.data.contacts)
         if (response.status === 200 && response.data.contacts) {
-          setSetsearchedContacts(response.data.contacts);
+          setSearchedContacts(response.data.contacts);
         }
       } else {
-        setSetsearchedContacts([]);
+        setSearchedContacts([]);
       }
     } catch (error) {
       console.log({ error });
     }
   };
-  const [searchedContacts, setSetsearchedContacts] = useState([]);
+  const [searchedContacts, setSearchedContacts] = useState([]);
   console.log(searchedContacts)
+
+  const selectNewContact = (contact) => {
+    setOpenNewContact(false);
+    setSelectedChatType("contact");
+    setSelectedChatData(contact);
+    setSearchedContacts([]);
+  }
 
   return (
     <>
@@ -77,8 +87,8 @@ const NewDm = () => {
           </div>
           <ScrollArea className="h-[250px]">
             <div className="flex flex-col gep-5">
-              {searchedContacts?.map((contact) => (
-                <div className="flex gap-3 items-center cursor-pointer">
+              {searchedContacts?.map((contact, index) => (
+                <div className="flex gap-3 items-center cursor-pointer" key={index} onClick={()=>selectNewContact(contact)}>
                   <div className="w-12 h-12 relative">
                     <Avatar className="h-12 w-12  rounded-full overflow-hidden">
                       {contact?.image ? (
