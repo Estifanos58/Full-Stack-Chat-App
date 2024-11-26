@@ -3,8 +3,9 @@ import { Server as ServerIOServer } from "socket.io";
 const setupSocket = (server) => {
     const io = new ServerIOServer(server, {
         cors: {
-            origin: process.env.ORIGION,
-            methods: ["GET", "POST"]
+            origin: process.env.ORIGIN,
+            methods: ["GET", "POST"],
+            credentials:true
         }
     });
 
@@ -26,7 +27,7 @@ const setupSocket = (server) => {
 
        if(userId){
             userSocketMap.set(userId, socket.id);
-            console.log(`User connected: ${userId} wiht socket ID: ${socket.id}`);
+            console.log(`User connected: ${userId} with socket ID: ${socket.id}`);
        }else{
            console.log('User connected with no user ID');
        }    

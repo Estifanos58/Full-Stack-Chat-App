@@ -15,12 +15,13 @@ const port = process.env.PORT || 3001;
 const databaseURL = process.env.DATABASE_URL;
 
 const corsOptions = {  
-    origin: process.env.ORIGION || 'http://localhost:5173', // Allow requests from this origin  
+    origin: true || process.env.ORIGION || 'http://localhost:5173', // Allow requests from this origin  
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods  
     credentials: true, // Allow cookies to be passed  
   }; 
 
 app.use(cors(corsOptions))
+// app.use(cors())
 
 app.use("/uploads/profiles", express.static(('./uploads/profiles')));
 
@@ -31,11 +32,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/contacts', contactsRoutes)
 
 
-const serer = app.listen(port, ()=>{
+const server = app.listen(port, ()=>{
     console.log(`Server is running http://localhost:${port}`);
 })
 
-setupSocket(serer)
+setupSocket(server)
 
 mongoose.connect(databaseURL).then(()=>console.log('DB Connection Successful')).catch(err=> console.log(err.message))
 
