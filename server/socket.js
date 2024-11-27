@@ -24,7 +24,7 @@ const setupSocket = (server) => {
     }
 
     const sendMessage = async( message )=>{
-
+        // console.log(message)
         const senderSocketId  = userSocketMap.get(message.sender);
         const recipientSocketId = userSocketMap.get(message.recipient);
 
@@ -34,11 +34,12 @@ const setupSocket = (server) => {
         .populate("sender","id email firstName lastName image color")
         .populate("recipient","id email firstName lastName image color")
 
+        // console.log(messageData)
         if(recipientSocketId){
             io.to(recipientSocketId).emit("recieveMessage", messageData);
         }
         if(senderSocketId){
-            io.to(senderSocketId).emit("sendeMessage", messageData);
+            io.to(senderSocketId).emit("recieveMessage", messageData);
         }
     }
 
