@@ -3,6 +3,7 @@ import {RiCloseFill} from 'react-icons/ri'
 import { useAppStore } from '@/store'
 import { AvatarImage,Avatar } from '@/components/ui/avatar'
 import { HOST } from '@/utils/constants'
+import { getColor } from '@/lib/utils'
 
 const ChatHeader = () => {
 
