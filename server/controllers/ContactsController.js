@@ -52,13 +52,13 @@ export const searchContacts = async (req, res) => {
           {
             $group:{
               _id: {
-                $conds: {
+                $cond: {
                   if: { $eq: ["$sender", userId]},
                   then: "$recipient",
                   else: "$sender",
                 },
               },
-              lestMessageTime: { $first: $timestamp },
+              lestMessageTime: { $first: "$timestamp" },
             }},
             {
               $lookup : {
@@ -78,7 +78,7 @@ export const searchContacts = async (req, res) => {
                 email: "$contactInfo.email",
                 firstName: "$contactInfo.firstName",
                 lastName: "$contactInfo.lastName",
-                image: "contactInfo.image",
+                image: "$contactInfo.image",
                 color: "$contactInfo.color",
               },
             },

@@ -8,7 +8,7 @@ import { getColor } from '@/lib/utils'
 const ChatHeader = () => {
 
   const {closedChat, selectedChatData, selectedChatType} = useAppStore()
-  console.log(selectedChatData)
+
   return (
     <div className="h-[10ch] border-b-2 border-[#2f303b] flex items-center justify-between px-20">
       <div className="flex gap-5 items-center w-full justify-between">
@@ -29,7 +29,7 @@ const ChatHeader = () => {
                   >
                     {selectedChatData?.firstname
                       ? selectedChatData?.firstname.split("").shift()
-                      : selectedChatData.email.split("").shift()}
+                      : selectedChatData?.email.split("").shift()}
                   </div>
                 )}
               </Avatar>
