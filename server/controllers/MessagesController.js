@@ -30,7 +30,7 @@ export const getMessages = async (req, res) => {
       if(!req.file){
         return res.status(400).send("File is required");
       }
-
+      // console.log(req.file)
       const date = Date.now();
       let fileDir = `uploads/files/${date}`;
       let fileName = `${fileDir}/${req.file.originalname}`;

@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from "react";
 import moment from "moment";
 import { useAppStore } from "@/store";
 import { apiClient } from "@/lib/api-client";
-import { GET_ALL_MESSAGES_ROUTE } from "@/utils/constants";
+import { GET_ALL_MESSAGES_ROUTE, HOST } from "@/utils/constants";
+import { MdFolderZip } from 'react-icons/md'
 
 const MessageContainer = () => {
   const {
@@ -41,6 +42,11 @@ const MessageContainer = () => {
     }
   }, [selectedChatMessages]);
 
+  const checkImage = (filePath) => {
+    const imageRegex = /\.(jpg|jpeg|png|gif|bmp|tiff|tif|webp|svg|ico|heic|heif)$/i;
+    return imageRegex.test(filePath)
+  }
+
   const renderMessages = () => {
     let lastDate = null;
     return selectedChatMessages.map((message, index) => {
@@ -78,6 +84,30 @@ const MessageContainer = () => {
       >
         {message.messageType === "text" && message.content}
       </div>
+      {
+        message.messageType === "file" &&   <div
+        className={`${
+          message.sender !== selectedChatData._id
+            ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50"
+            : "bg-[#2a2b33]/5 text-white/80 border-white/20"
+        } border inline-block p-3 rounded-lg max-w-[70%] break-words shadow-md transition-transform duration-200 transform hover:scale-105`}
+      >
+        {
+          checkImage(message.fileUrl) ?
+           <div className="cursor-pointer">
+            <img src={`${HOST}${message.fileUrl}`} height={300} width={300} />
+          </div> : 
+          <div className="flex items-center justify-center gap-4">
+              <span className="text-white/8- text-3xl bg-black/20 rounded-full p-3">
+                <MdFolderZip />
+              </span>
+              <span>
+                {message.fileUrl.split("/").pop()}
+              </span>
+          </div>
+        }
+      </div>
+      }
       <div className="text-xs text-gray-600 ml-2 self-end">
         {moment(message.timestamp).format("LT")}
       </div>

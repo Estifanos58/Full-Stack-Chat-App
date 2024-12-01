@@ -45,7 +45,7 @@ console.log(contacts,"hi");
                               />
                             ) : (
                               <div
-                                className={` ${selectedChatData._id === contact._id ? "bg-[#ffffff22] border-white/70 border": getColor(contact.color)} uppercase h-10 w-10 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(
+                                className={` ${selectedChatData?._id === contact._id ? "bg-[#ffffff22] border-white/70 border": getColor(contact.color)} uppercase h-10 w-10 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(
                                   contact?.color
                                 )}`}
                               >
