@@ -14,6 +14,8 @@ const MessageContainer = () => {
     selectedChatMessages,
     userInfo,
     setSelectedChatMessages,
+    setFileDownloadProgress,
+    setIsDownloading
   } = useAppStore();
   const scrollRef = useRef();
   const [showImage, setshowImage] = useState(false);
@@ -72,20 +74,34 @@ const MessageContainer = () => {
     });
   };
 
-  const downloadFile = async (file) => {
-    const response = await apiClient.get(`${HOST}${file}`, {
-      responseType: "blob",
-    });
-    console.log(response);
-    const urlBlob = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = urlBlob;
-    link.setAttribute("download", file.split("/").pop());
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.URL.revokeObjectURL(urlBlob);
-  };
+  const downloadFile = async (file) => {  
+    try {  
+      setIsDownloading(true);
+      setFileDownloadProgress(0);
+      const response = await apiClient.get(`${HOST}${file}`, {  
+        responseType: "blob",  
+        onDownloadProgress:(progressEvent)=> {
+          const {loaded, total} = progressEvent;
+          const percent = Math.floor((loaded * 100) / total);
+          setFileDownloadProgress(percent);
+        }
+
+      });  
+      const urlBlob = window.URL.createObjectURL(new Blob([response.data]));  
+      const link = document.createElement("a");  
+      link.href = urlBlob;  
+      link.setAttribute("download", file.split("/").pop());  
+      document.body.appendChild(link);  
+      link.click();  
+      link.remove();  
+      window.URL.revokeObjectURL(urlBlob);  
+      setIsDowloading(false);
+      setFileDownloadProgress(0);
+    } catch (error) {  
+      setIsDownloading(false);
+      console.error("Error downloading file:", error);  
+    }  
+  };  
 
   const renderDMMessages = (message) => (
     <div
