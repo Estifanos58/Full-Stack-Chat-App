@@ -15,7 +15,7 @@ import {
   } from "@/components/ui/dialog";
   import { Input } from "@/components/ui/input";
   import { apiClient } from "@/lib/api-client";
-  import { GET_ALL_CONTACTS, SEARCH_CONTACTS_ROUTES } from "@/utils/constants";
+  import { CREATE_CHANNEL_ROUTE, GET_ALL_CONTACTS, SEARCH_CONTACTS_ROUTES } from "@/utils/constants";
 
   import { HOST } from "@/utils/constants";
   import { useAppStore } from "@/store";
@@ -44,14 +44,15 @@ import MultipleSelector from "@/components/ui/multipleselect";
     const CreateChannel = async ()=>{
         try {
           if(channelName.length > 0 && selectedContacts.length > 0){
-            const response = await apiClient.post(GET_ALL_CONTACTS, {
+            const response = await apiClient.post(CREATE_CHANNEL_ROUTE, {
               name: channelName,
               members: selectedContacts.map((contact)=> contact.value),
             },{
               withCredentials: true,
             });
+            console.log(response.status , response.data.channel)
 
-            if(response.status === 200){
+            if(response.status === 201){
               setChannelName("");
               setSelectedContacts([]);
               setNewChannelModel(false);

@@ -57,8 +57,8 @@ console.log(contacts,"hi");
                           </Avatar>
                         }
                         {
-                            isChannel && <div className="bg-[#ffffff22] h-10 w-10 flex items-center justify-center rounded-full">
-,
+                            isChannel && <div className="bg-[#ffffff22] h-10 w-10 flex items-center justify-center rounded-full text-3xl">
+                                    #
                             </div>
                         }
                         {
