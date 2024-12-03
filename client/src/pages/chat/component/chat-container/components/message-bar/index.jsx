@@ -32,9 +32,10 @@ const MessageBar = () => {
     setMessage((msg) => msg + emoji.emoji);
   };
 
-  const handleSendMessage = async () => {  
+  const handleSendMessage = async () => { 
+    // console.log(selectedChatType) 
     if (message.trim() === "") return; // Prevent sending empty messages
-    console.log(socket)  
+    // console.log(socket)  
     if (selectedChatType === "contact") {  
       socket.current?.emit("sendMessage", {  
         sender: userInfo.id,  
@@ -45,6 +46,7 @@ const MessageBar = () => {
       });  
       
     }else if(selectedChatType === "channel") {
+      // console.log(userInfo.id, message, selectedChatData._id)
       socket.current?.emit("send-channel-message", {  
         sender: userInfo.id,  
         content: message,  

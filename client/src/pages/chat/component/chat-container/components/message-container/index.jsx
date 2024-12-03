@@ -60,6 +60,7 @@ const MessageContainer = () => {
       const messageDate = moment(message.timestamp).format("YYYY-MM-DD");
       const showDate = messageDate !== lastDate;
       lastDate = messageDate;
+      // console.log(message, "hellow")
 
       return (
         <div key={index}>
@@ -69,10 +70,12 @@ const MessageContainer = () => {
             </div>
           )}
           {selectedChatType === "contact" && renderDMMessages(message)}
+          {selectedChatType === "channel" && renderChannelMessage(message)}
         </div>
       );
     });
   };
+
 
   const downloadFile = async (file) => {  
     try {  
@@ -159,6 +162,24 @@ const MessageContainer = () => {
       </div>
     </div>
   );
+
+  
+  const renderChannelMessage = (message)=>{
+      return (
+        <div className={`mt-5 ${message.sender._id !== userInfo.id ? "text-left" : "text-right"}`}>
+            <div
+        className={`${
+          message.sender._id !== userInfo._id
+            ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50"
+            : "bg-[#2a2b33]/5 text-white/80 border-white/20"
+        } border inline-block p-3 rounded-lg max-w-[70%] break-words shadow-md transition-transform duration-200 transform hover:scale-105`}
+      >
+        {message.messageType === "text" && message.content}
+      </div>
+        </div>
+      )
+  }
+
 
   return (
     <div className="flex flex-col overflow-y-auto scrollbar-hidden p-4 md:w-[65vw] lg:w-[70vw] xl:w-[80vw] w-full">

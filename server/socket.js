@@ -59,11 +59,10 @@ const setupSocket = (server) => {
         const messageData = await Message.findById(createMessage._id)
         .populate("sender", "id email firstName lastName image color")
         .exec();
-
         await Channel.findByIdAndUpdate(channelId, {
             $push: { messages: createMessage._id},
         });
-
+        
         const channel = await Channel.findById(channelId).populate("members");
 
         const finalData = { ...messageData._doc, channelId: channel._id};
@@ -74,11 +73,11 @@ const setupSocket = (server) => {
                 if(memberSocketId){
                     io.to(memberSocketId).emit("recieve-channel-message", finalData);
                 }
-                const adminSocketId = userSocketMap.get(channel.admin._id.toString());
+            })
+            const adminSocketId = userSocketMap.get(channel.admin._id.toString());
                 if(adminSocketId){
                     io.to(adminSocketId).emit("recieve-channel-message", finalData);
                 }
-            })
         }
 
     }
