@@ -13,7 +13,7 @@ const createToken = (email, userId) => {
 export const signup = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     if ((!email, !password)) {
       return res.status(400).send("Email and Password is required.");
     }
@@ -50,12 +50,12 @@ export const signup = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     if ((!email, !password)) {
       return res.status(400).send("Email and Password is required.");
     }
     const user = await User.findOne({ email });
-    console.log(user)
+    // console.log(user)
     if (!user) {
       return res.status(404).send("Email and Password is required");
     }
@@ -119,9 +119,9 @@ export const updateProfile = async (req, res) => {
     const { userId } = req;
 
     const { firstname, lastname, color } = req.body;
-    console.log(
-      `firstname: ${firstname} lastname: ${lastname} color: ${color}`
-    );
+    // console.log(
+    //   `firstname: ${firstname} lastname: ${lastname} color: ${color}`
+    // );
     if (!firstname || !lastname) {
       return res.status(400).send("Firstname Lastname and color is required.");
     }
@@ -161,7 +161,7 @@ export const addProfileImage = async (req, res) => {
     const date = Date.now();
     let fileName = "uploads/profiles/" + date + req.file.originalname;
     renameSync(req.file.path, fileName);
-    console.log(fileName)
+    // console.log(fileName)
     const updatedUser = await User.findByIdAndUpdate(
       req.userId,
       { image: fileName },
