@@ -47,8 +47,9 @@ const MessageContainer = () => {
           `${GET_CHANNEL_MESSAGES}/${selectedChatData._id}`,
           { withCredentials: true }
         );
-
+       
         if (response.data.messages) {
+          console.log(response.data.messages,"group")
           setSelectedChatMessages(response.data.messages);
         }
       } catch (error) {
@@ -254,7 +255,7 @@ const MessageContainer = () => {
                   : message.sender?.email.split("").shift()}
               </AvatarFallback>
             </Avatar>
-            <span className="text-sm textwhite/60 ">{`${message.sender.firstName} ${message.sender.lastName}`}</span>
+            <span className="text-sm textwhite/60 ">{`${message.sender.firstname} ${message.sender.lastname}`}</span>
             <span className="text-xs text-white/60">
               {moment(message.timestamp).format("LT")}
             </span>

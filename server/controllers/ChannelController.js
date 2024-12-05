@@ -59,14 +59,14 @@ try {
       path: "messages",
       populate: {
          path: "sender",
-         select: "firstName lastName email _id image color",
+         select: "firstname lastname email _id image color",
       }
    });
 
    if(!channel){
       return res.status(404).send("Channel not found");
    }
-
+   // console.log(channel.messages);
    const messages = channel.messages;
    return res.status(201).json({messages});
 

@@ -57,7 +57,7 @@ const setupSocket = (server) => {
         });
 
         const messageData = await Message.findById(createMessage._id)
-        .populate("sender", "id email firstName lastName image color")
+        .populate("sender", "id email firstname lastname image color")
         .exec();
         await Channel.findByIdAndUpdate(channelId, {
             $push: { messages: createMessage._id},
